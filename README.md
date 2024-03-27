@@ -34,9 +34,11 @@ chmod +x install-pvpgn.sh
 ```bash
 ./start-pvpgn.sh --help
 ```
+
 ```
+  PvPGN Server Docker Installation Script
  To install the first time run:
-    `./install-pvpgn.sh`
+    ./install-pvpgn.sh
   
   USAGE: ./install-pvpgn.sh [OPTIONS]
   --help, -h     Show this help message
@@ -49,11 +51,11 @@ chmod +x install-pvpgn.sh
   NOTE: -f anf -b make it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
 
   To stop the container, run:
-    `docker stop pvpgn-server`
+    docker stop pvpgn-server
   To start the container, run:
-    `docker start pvpgn-server`
+    docker start pvpgn-server
   To remove the container, run:
-    `docker rm pvpgn-server`
+    docker rm pvpgn-server
   
   --fresh and --build flags will:
      - remove the container and image,
@@ -62,9 +64,9 @@ chmod +x install-pvpgn.sh
   
   EXAMPLES:
   To do a fresh install (backup ./etc and ./var dirs), run:
-    `./install-pvpgn.sh --fresh`
+    ./install-pvpgn.sh --fresh
   To re-build (retains ./etc and ./var dirs), run:
-    `./install-pvpgn.sh --build`
+    ./install-pvpgn.sh --build
 ```
 
 ## Configuration

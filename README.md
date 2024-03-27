@@ -36,36 +36,35 @@ chmod +x install-pvpgn.sh
 ```
 
 ```
-  PvPGN Server Docker Installation Script
- To install the first time run:
+To install the first time run:
     ./install-pvpgn.sh
   
-  USAGE: ./install-pvpgn.sh [OPTIONS]
+USAGE: ./install-pvpgn.sh [OPTIONS]
   --help, -h     Show this help message
 
-  After first install, re-run this script with the following options:
+After first install, re-run this script with the following options:
   --fresh, -f    Remove the container and image, then rebuild
                  *makes a backup ./etc and ./var dirs
   --build, -b    Remove the container and image, then rebuild
                   *retains ./etc and ./var dirs
-  NOTE: -f anf -b make it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
+NOTE: -f anf -b make it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
 
-  To stop the container, run:
+To stop the container, run:
     docker stop pvpgn-server
-  To start the container, run:
+To start the container, run:
     docker start pvpgn-server
-  To remove the container, run:
+To remove the container, run:
     docker rm pvpgn-server
   
-  --fresh and --build flags will:
+--fresh and --build flags will:
      - remove the container and image,
      - then rebuild using the current Dockerfile and entrypoint.sh
-   this makes it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
+this makes it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
   
-  EXAMPLES:
-  To do a fresh install (backup ./etc and ./var dirs), run:
+EXAMPLES:
+To do a fresh install (backup ./etc and ./var dirs), run:
     ./install-pvpgn.sh --fresh
-  To re-build (retains ./etc and ./var dirs), run:
+To re-build (retains ./etc and ./var dirs), run:
     ./install-pvpgn.sh --build
 ```
 

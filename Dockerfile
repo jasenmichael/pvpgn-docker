@@ -54,11 +54,14 @@ COPY --from=build-base \
   /bin/tgainfo \
   /bin/
 
-# COPY --from=build-base --chown=1001:1001 /etc/pvpgn /etc/pvpgn
-# COPY --from=build-base --chown=1001:1001 /var/pvpgn /var/pvpgn
+# RUN mkdir -p /usr/local/pvpgn/etc/pvpgn
+# RUN mkdir -p /usr/local/pvpgn/var/pvpgn
 
-COPY --from=build-base --chown=1001:1001 /etc/pvpgn /usr/local/pvpgn/etc/pvpgn
-COPY --from=build-base --chown=1001:1001 /var/pvpgn /user/local/pvpgn/var/pvpgn
+# COPY --from=build-base --chown=1001:1001 /etc/pvpgn /usr/local/pvpgn/etc/pvpgn 
+# COPY --from=build-base --chown=1001:1001 /var/pvpgn /usr/local/pvpgn/var/pvpgn 
+
+COPY --from=build-base --chown=1001:1001 /etc/pvpgn /etc/pvpgn 
+COPY --from=build-base --chown=1001:1001 /var/pvpgn /var/pvpgn 
 
 # Prepare user
 RUN addgroup --gid 1001 pvpgn \

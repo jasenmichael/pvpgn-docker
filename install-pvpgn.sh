@@ -16,7 +16,8 @@ fi
 if [ ! -f "entrypoint.sh" ]; then
   echo '#!/bin/bash
 
-/sbin/bnetd -f -c /usr/local/pvpgn/etc/pvpgn/bnetd.conf' > entrypoint.sh
+# /sbin/bnetd -f -c /usr/local/pvpgn/etc/pvpgn/bnetd.conf' > entrypoint.sh
+/sbin/bnetd -f > entrypoint.sh
   chmod +x entrypoint.sh
 fi
 
@@ -25,7 +26,9 @@ if [ "$(docker images -q jasenmichael/pvpgn 2> /dev/null)" == "" ]; then
   if [ ! -f "./Dockerfile" ]; then
     echo "Dockerfile not found in the current directory, checking docker registry..."
     docker pull jasenmichael/pvpgn 2> /dev/null || \
-      curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/main/Dockerfile -O && \
+      echo "Docker image jasenmichael/pvpgn not found in the registry"
+      echo "Downloading and building Dockerfile from the repository..."
+      curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/dev/Dockerfile -O && \
       docker build . -t jasenmichael/pvpgn
   else
     echo "Docker image jasenmichael/pvpgn does not exist, building it from Dockerfile..."
@@ -40,16 +43,16 @@ fi
 
 # SETUP FILES (copy files from container to host)
 if [ ! -d "./var" ] || [ ! -d "./etc" ]; then
-  container_id=$(docker run --rm -d jasenmichael/pvpgn)
+  container_id=$(docker run --rm -d --entrypoint="bnetd" jasenmichael/pvpgn bnetd -f)
 
   if [ ! -d "./var" ]; then
     echo "./var directory not found, copying now..."
-    docker cp "$container_id":/usr/local/pvpgn/var/pvpgn ./var
+    docker cp "$container_id":/var/pvpgn ./var
   fi
 
   if [ ! -d "./etc" ]; then
     echo "./etc directory not found, copying now..."
-    docker cp "$container_id":/usr/local/pvpgn/etc/pvpgn ./etc
+    docker cp "$container_id":/etc/pvpgn ./etc
   fi
 
   docker stop "$container_id"
@@ -77,11 +80,11 @@ else
    -p 6112:6112/udp \
    -p 6112:6112/tcp \
    -p 4000:4000  \
-   -v "$PWD"/var:/usr/local/pvpgn/var/pvpgn:rw \
-   -v "$PWD"/etc:/usr/local/pvpgn/etc/pvpgn:rw \
+   -v "$PWD"/var:/var/pvpgn:rw \
+   -v "$PWD"/etc:/etc/pvpgn:rw \
    jasenmichael/pvpgn)
 
-   docker update --restart unless-stopped pvpgn-server || exit 1
+   docker update --restart unless-stopped pvpgn-server &> /dev/null || exit 1
    echo "Container pvpgn-server created with id $container_id"
    echo "pvpgn-server started"
 fi

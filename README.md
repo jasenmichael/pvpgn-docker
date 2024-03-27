@@ -47,7 +47,7 @@ After first install, re-run this script with the following options:
                  *makes a backup ./etc and ./var dirs
   --build, -b    Remove the container and image, then rebuild
                  *retains ./etc and ./var dirs
-NOTE: -f anf -b make it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
+NOTE: -f and -b make it easy to customize the image (Dockerfile) and the container (entrypoint.sh)
 
 To stop the container, run:
     docker stop pvpgn-server

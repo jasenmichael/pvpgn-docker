@@ -34,6 +34,7 @@ chmod +x install-pvpgn.sh
 ```bash
 ./start-pvpgn.sh --help
 ```
+```
  To install the first time run:
     `./install-pvpgn.sh`
   
@@ -64,6 +65,7 @@ chmod +x install-pvpgn.sh
     `./install-pvpgn.sh --fresh`
   To re-build (retains ./etc and ./var dirs), run:
     `./install-pvpgn.sh --build`
+```
 
 ## Configuration
 create a .env file in the root directory with any of the following variables you wish to override. 

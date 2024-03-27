@@ -27,7 +27,7 @@ if [ "$(docker images -q jasenmichael/pvpgn 2> /dev/null)" == "" ]; then
     docker pull jasenmichael/pvpgn 2> /dev/null || \
       echo "Docker image jasenmichael/pvpgn not found in the registry"
       echo "Downloading and building Dockerfile from the repository..."
-      curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/dev/Dockerfile -O && \
+      curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/main/Dockerfile -O && \
       docker build . -t jasenmichael/pvpgn
   else
     echo "Docker image jasenmichael/pvpgn does not exist, building it from Dockerfile..."

@@ -1,13 +1,46 @@
 #!/bin/bash
 
+# image_name="jasenmichael/pvpgn"
+container_name="pvpgn-server"
+
 cd "$(dirname "$0")" || exit
 
-container_id=""
-container_name="pvpgn-server"
+# check if docker is installed
+if ! command -v docker &> /dev/null; then
+  echo "Docker is not installed, please install it first"
+  echo "https://docs.docker.com/get-docker/"
+  exit 1
+fi
+
+# check if entrypoint.sh exists
+if [ ! -f "entrypoint.sh" ]; then
+  echo '#!/bin/bash
+
+/sbin/bnetd -f -c /usr/local/pvpgn/etc/pvpgn/bnetd.conf' > entrypoint.sh
+  chmod +x entrypoint.sh
+fi
+
+# ensure the docker image "jasenmichael/pvpgn" exists locally
+if [ "$(docker images -q jasenmichael/pvpgn 2> /dev/null)" == "" ]; then
+  if [ ! -f "./Dockerfile" ]; then
+    echo "Dockerfile not found in the current directory, checking docker registry..."
+    docker pull jasenmichael/pvpgn 2> /dev/null || \
+      curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/main/Dockerfile -O && \
+      docker build . -t jasenmichael/pvpgn
+  else
+    echo "Docker image jasenmichael/pvpgn does not exist, building it from Dockerfile..."
+    docker build . -t jasenmichael/pvpgn
+  fi
+fi
+
+if [ "$(docker images -q jasenmichael/pvpgn 2> /dev/null)" == "" ]; then
+  echo "Docker image jasenmichael/pvpgn still not found, exiting..."
+  exit 1
+fi
 
 # SETUP FILES (copy files from container to host)
 if [ ! -d "./var" ] || [ ! -d "./etc" ]; then
-  container_id=$(docker run --rm -d wwmoraes/pvpgn-server)
+  container_id=$(docker run --rm -d jasenmichael/pvpgn)
 
   if [ ! -d "./var" ]; then
     echo "./var directory not found, copying now..."
@@ -22,10 +55,8 @@ if [ ! -d "./var" ] || [ ! -d "./etc" ]; then
   docker stop "$container_id"
 fi
 
-
-# chmod +x entrypoint.sh
-chmod -R 777 ./var >/dev/null 2>&1
-chmod -R 777 ./etc >/dev/null 2>&1
+chmod -R 777 ./var &> /dev/null
+chmod -R 777 ./etc &> /dev/null
 
 # CREATE CONTAINER
 # check if the container pvpgn-server exists
@@ -48,9 +79,9 @@ else
    -p 4000:4000  \
    -v "$PWD"/var:/usr/local/pvpgn/var/pvpgn:rw \
    -v "$PWD"/etc:/usr/local/pvpgn/etc/pvpgn:rw \
-   wwmoraes/pvpgn-server)
+   jasenmichael/pvpgn)
 
-   docker update --restart unless-stopped pvpgn-server
+   docker update --restart unless-stopped pvpgn-server || exit 1
    echo "Container pvpgn-server created with id $container_id"
    echo "pvpgn-server started"
 fi

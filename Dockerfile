@@ -29,7 +29,8 @@ RUN cmake -G "Unix Makefiles" -H./ -B./build \
 ############################################################################################ 
 
 # Runner image with dependencies
-FROM alpine:latest AS runner
+FROM node:iron-alpine  AS runner
+# FROM alpine:latest AS runner
 
 RUN apk --quiet --no-cache add \
   ca-certificates \
@@ -54,12 +55,6 @@ COPY --from=build-base \
   /bin/tgainfo \
   /bin/
 
-# RUN mkdir -p /usr/local/pvpgn/etc/pvpgn
-# RUN mkdir -p /usr/local/pvpgn/var/pvpgn
-
-# COPY --from=build-base --chown=1001:1001 /etc/pvpgn /usr/local/pvpgn/etc/pvpgn 
-# COPY --from=build-base --chown=1001:1001 /var/pvpgn /usr/local/pvpgn/var/pvpgn 
-
 COPY --from=build-base --chown=1001:1001 /etc/pvpgn /etc/pvpgn 
 COPY --from=build-base --chown=1001:1001 /var/pvpgn /var/pvpgn 
 
@@ -77,7 +72,19 @@ RUN addgroup --gid 1001 pvpgn \
   pvpgn
 
 # Expose ports
-EXPOSE 6112 4000
+EXPOSE 6112 4000 3000
+
+# Set working directory
+RUN mkdir -p /usr/local/pvpgn/web && \
+  npm install pm2 -g
+
+COPY web /usr/local/pvpgn/web
+
+WORKDIR /usr/local/pvpgn/web
+
+RUN chown -R 1001:1001 /usr/local/pvpgn && \
+  rm -rf /usr/local/pvpgn/web/node_modules 2> /dev/null && \
+  cd /usr/local/pvpgn/web && npm install
 
 # Set user
 USER 1001:1001

@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "web",
+      "script": "npm",
+      "args": "start",
+      "cwd": "/usr/local/pvpgn/web",
+      "watch": false,
+      "autorestart": true
+    }
+  ]
+}

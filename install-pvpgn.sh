@@ -16,8 +16,7 @@ fi
 if [ ! -f "entrypoint.sh" ]; then
   echo '#!/bin/bash
 
-# /sbin/bnetd -f -c /usr/local/pvpgn/etc/pvpgn/bnetd.conf' > entrypoint.sh
-/sbin/bnetd -f > entrypoint.sh
+/sbin/bnetd -f' > entrypoint.sh
   chmod +x entrypoint.sh
 fi
 

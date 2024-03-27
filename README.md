@@ -15,7 +15,7 @@ There are two ways to install this project:
 This method leverages Git for version control and easier updates.
 
 ```bash
-git clone git@github.com:jasenmichael/pvpgn-docker.git pvpgn
+git clone https://github.com/jasenmichael/pvpgn-docker.git pvpgn
 cd pvpgn
 ./install-pvpgn.sh
 ```

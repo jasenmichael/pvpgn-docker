@@ -162,8 +162,6 @@ else
 fi
 
 echo "for usage run:
-  $0 --help
-or
   $0 -h"
 
 

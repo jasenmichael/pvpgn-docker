@@ -115,6 +115,7 @@ if [ "$(docker images -q "$IMAGE_NAME" 2> /dev/null)" == "" ]; then
       fi
     fi
     cd "$WORKING_DIR" || exit
+    chmod -R 777 ./web &> /dev/null
     docker build . -t "$IMAGE_NAME"
   }
 

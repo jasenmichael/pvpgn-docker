@@ -78,18 +78,21 @@ EXPOSE 6112 4000 3000
 RUN mkdir -p /usr/local/pvpgn/web && \
   npm install pm2 -g
 
+#  break the cache hack
+ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
+
+COPY --chown=root entrypoint.sh /entrypoint.sh
+
+# Copy web files and make sure it builds
 COPY web /usr/local/pvpgn/web
+RUN chown -R 1001:1001 /usr/local/pvpgn
 
 WORKDIR /usr/local/pvpgn/web
-
-RUN chown -R 1001:1001 /usr/local/pvpgn && \
-  rm -rf /usr/local/pvpgn/web/node_modules 2> /dev/null && \
-  cd /usr/local/pvpgn/web && npm install
+RUN cd /usr/local/pvpgn/web/backend && npm ci && npm run build
+RUN cd /usr/local/pvpgn/web/frontend && npm ci && npm run build
 
 # Set user
 USER 1001:1001
-
-COPY --chown=root entrypoint.sh /entrypoint.sh
 
 # Run command
 CMD ["/entrypoint.sh"]

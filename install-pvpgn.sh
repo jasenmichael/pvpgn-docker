@@ -20,6 +20,7 @@ DOCKER_RUN_COMMAND="docker run -d \
   -p $WEB_PORT:3000  \
   -v $WORKING_DIR/var:/var/pvpgn:rw \
   -v $WORKING_DIR/etc:/etc/pvpgn:rw \
+  -v $WORKING_DIR/web:/usr/local/pvpgn/web:rw \
   $IMAGE_NAME"
 
 ###############################################################
@@ -102,16 +103,31 @@ fi
 
 # ensure the docker image "$IMAGE_NAME" exists locally
 if [ "$(docker images -q "$IMAGE_NAME" 2> /dev/null)" == "" ]; then
+  build_web_and_image(){
+    if [ -d "$WORKING_DIR/web" ]; then
+      # check if web/backendp/package.json exists
+      if [ -f "$WORKING_DIR/web/backend/package.json" ]; then
+        cd "$WORKING_DIR"/web/backend && npm ci && npm run build
+      fi
+      # check if web/frontend/package.json exists
+      if [ -f "$WORKING_DIR/web/frontend/package.json" ]; then
+        cd "$WORKING_DIR"/web/frontend && npm ci && npm run build
+      fi
+    fi
+    cd "$WORKING_DIR" || exit
+    docker build . -t "$IMAGE_NAME"
+  }
+
   if [ ! -f "./Dockerfile" ]; then
     echo "Dockerfile not found in the current directory, checking docker registry..."
     docker pull "$IMAGE_NAME" 2> /dev/null || \
       echo "Docker image $IMAGE_NAME not found in the registry"
       echo "Downloading and building Dockerfile from the repository..."
       curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/main/Dockerfile -O && \
-      docker build . -t "$IMAGE_NAME"
+      build_web_and_image
   else
     echo "Docker image $IMAGE_NAME does not exist, building it from Dockerfile..."
-    docker build . -t "$IMAGE_NAME"
+    build_web_and_image
   fi
 fi
 

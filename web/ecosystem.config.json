@@ -5,7 +5,15 @@
       "script": "npm",
       "args": "start",
       "cwd": "/usr/local/pvpgn/web/backend",
-      "watch": false,
+      "watch": [
+        "/usr/local/pvpgn/web/backend",
+        "/usr/local/pvpgn/web/frontend/dist"
+      ],
+      "ignore_watch": [
+        "/usr/local/pvpgn/web/backend/node_modules",
+        "/usr/local/pvpgn/web/frontend/node_modules"
+      ],
+      "watch_delay": 2000,
       "autorestart": true
     }
   ]

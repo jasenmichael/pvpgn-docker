@@ -158,7 +158,7 @@ else
 
   docker update --restart unless-stopped "$CONTAINER_NAME" &> /dev/null || exit 1
   echo "Container $CONTAINER_NAME created with id $CONTAINER_ID"
-  echo "pvpgn-server started"
+  echo "$CONTAINER_NAME started"
 fi
 
 echo "for usage run:

@@ -1,11 +1,11 @@
 # ignore
 *
-web/dist
-web/node_modules
+web/**/dist
+web/**/build
+web/**/node_modules
 
 # include
-!.gitignore
-!web/.gitignore
+!.dockerignore
 
 !install-pvpgn.sh
 !README.md

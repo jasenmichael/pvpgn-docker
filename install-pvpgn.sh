@@ -107,11 +107,11 @@ if [ "$(docker images -q "$IMAGE_NAME" 2> /dev/null)" == "" ]; then
     if [ -d "$WORKING_DIR/web" ]; then
       # check if web/backendp/package.json exists
       if [ -f "$WORKING_DIR/web/backend/package.json" ]; then
-        cd "$WORKING_DIR"/web/backend && npm ci && npm run build
+        cd "$WORKING_DIR"/web/backend && npm ci || npm i && npm run build
       fi
       # check if web/frontend/package.json exists
       if [ -f "$WORKING_DIR/web/frontend/package.json" ]; then
-        cd "$WORKING_DIR"/web/frontend && npm ci && npm run build
+        cd "$WORKING_DIR"/web/frontend && npm ci || npm i && npm run build
       fi
     fi
     cd "$WORKING_DIR" || exit

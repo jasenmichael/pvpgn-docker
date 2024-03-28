@@ -4,7 +4,7 @@
       "name": "web",
       "script": "npm",
       "args": "start",
-      "cwd": "/usr/local/pvpgn/web",
+      "cwd": "/usr/local/pvpgn/web/backend",
       "watch": false,
       "autorestart": true
     }

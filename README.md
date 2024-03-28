@@ -69,7 +69,8 @@ To re-build (retains ./etc and ./var dirs), run:
 ```
 
 ## Configuration
-create a .env file in the root directory with any of the following variables you wish to override. 
+create a .env file in the root directory with any or all of the following variables you wish to override. 
+*You will probably only want to change the WEB_PORT value.
 
 these are default values loaded (even if there is no .env file):
 ```bash
@@ -77,4 +78,4 @@ CONTAINER_NAME=pvpgn-server
 IMAGE_NAME=jasenmichael/pvpgn
 WEB_PORT=3000
 ```
-*you will probably only want to change the WEB_PORT value.
+*You must rebuild after changing the .env file for the changes to take effect.

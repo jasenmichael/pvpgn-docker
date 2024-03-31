@@ -18,7 +18,7 @@ app.get('/api/status', async (req, res) => {
   res.json({ status: await checkStatus() })
 })
 
-app.page.on('request', request => {
+app.post('request', request => {
   console.log(request.url());
 });('/api/login', async (req, res) => {
   const user = "yoyoyoyoyo"

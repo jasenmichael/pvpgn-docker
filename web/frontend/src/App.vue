@@ -41,7 +41,7 @@
 
 <script setup>
 const info = {
-  serverIp: '143.244.152.50',
+  serverIp: '164.92.70.174',
   serverZone: '0'
 }
 const images = {

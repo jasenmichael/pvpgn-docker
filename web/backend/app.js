@@ -6,8 +6,8 @@ const app = express()
 
 const pvpgnServer = {
   // host: 'server.war2.ru',
-  host: '143.244.152.50',
-  // host: 'localhost',
+  // host: '143.244.152.50',
+  host: 'localhost',
   port: 6112,
 }
 
@@ -18,9 +18,11 @@ app.get('/api/status', async (req, res) => {
   res.json({ status: await checkStatus() })
 })
 
-app.get('/api/login', async (req, res) => {
-  const user = "chizzizity"
-  const password = "chizzizity"
+app.page.on('request', request => {
+  console.log(request.url());
+});('/api/login', async (req, res) => {
+  const user = "yoyoyoyoyo"
+  const password = "yoyoyoyoyo"
   const result = await login(user, password)
   console.log('Login result:', result);
   res.json({ result: result || "na" })
@@ -39,6 +41,8 @@ app.listen(3000, async () => {
 let clientSocket = null
 let serverRunning = false
 let stringQuery = []
+let message = null
+let token = null
 
 // function helpers
 async function connect(cb = null) {
@@ -56,7 +60,16 @@ async function connect(cb = null) {
   })
 
   clientSocket.on('data', (data) => {
-    console.log(data.toString().replace(/ERROR: Hello/g, 'Hello'), '\r\n')
+    message = data.toString()
+      .replace("ERROR: Hello", 'Hello')
+      .replace("Enter your account name and password.", '')
+      .replace("Sorry, there is no guest account.", '')
+      .replace("Username: ", '')
+      .replace("Password: ", '')
+      .replace("Joining channel: \"Chat\"", '')
+    
+    console.log(message)
+    message = null
     serverRunning = true
   })
 
@@ -78,20 +91,27 @@ async function checkStatus() {
   return serverRunning
 }
 
-async function login(username, password, channel = 'War2BNE') {
-  clientSocket?.end()
-  clientSocket = null
-  await connect()
+async function login(username, password, channel = 'War2BNE-1') {
+  if (!clientSocket) {
+    await connect()
+    console.log('Login sent:', username, password, channel)
+    sendCmd("\r\n")
+    sendCmd(username)
+    sendCmd(password)
+    sendCmd("/join " + channel)
+    sendCmd("\r\n")
+    sendCmd("\r\n")
+    sendCmd("\r\n")
+    // sendCmd("/stats " + username + " WAR2" )
+    // sendCmd("/help" )
+    await new Promise(resolve => setTimeout(resolve, 500))
 
-  console.log('Login sent:', username, password, channel)
+    token = "verrrrrrry-secure-token"
+  } else {
+    console.log('Already connected to PVPGN server')
 
-  sendCmd("\r\n")
-  sendCmd(username)
-  sendCmd("\r\n")
-  sendCmd(password)
-  // sendCmd("\r\n")
-  // sendCmd("/join " + channel);
-  // sendCmd("\r\n");
+  }
+  return token
 }
 
 Array.prototype.pushStr = function (str) {
@@ -104,12 +124,10 @@ Array.prototype.pushStr = function (str) {
 function sendCmd(msg) {
   console.log('Sending:', msg.trim())
   stringQuery.pushStr(msg + "\r\n")
-  // console.log('Sending:', stringQuery);
   if (stringQuery.length > 0) {
 
-    // clientSocket.write(stringQuery)
-    clientSocket.write(String.fromCharCode.apply(null, stringQuery));
-    // clientSocket.write(Buffer.from(stringQuery));
+    // clientSocket.write(String.fromCharCode.apply(null, stringQuery));
+    clientSocket.write(Buffer.from(stringQuery))
     stringQuery = [];
   }
 }

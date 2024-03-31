@@ -7,7 +7,8 @@ web/**/node_modules
 # include
 !.dockerignore
 
-!install-pvpgn.sh
+!install.sh
+!upgrade.sh
 !README.md
 !Dockerfile
 

@@ -49,7 +49,7 @@ const images = {
 }
 const links = {
   war2combatLink: 'https://downloads.warcraft2.online/war2/War2Combat46_en_full.exe',
-  battlenetGatewayEditorLink: 'https://downloads.warcraft2.online/war2/Fixes%20&%20Patches/Registry/BNGatewayEditor.zip'
+  battlenetGatewayEditorLink: '/files/BNGatewayEditor.zip'
 }
 
 </script>

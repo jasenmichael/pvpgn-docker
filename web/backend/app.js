@@ -1,6 +1,8 @@
 import express from 'express'
 import net from 'net'
 
+const port = process.env.PORT || 3002
+
 // import websockify from './websockify.js'
 const app = express()
 
@@ -28,8 +30,8 @@ app.post('request', request => {
   res.json({ result: result || "na" })
 })
 
-app.listen(3002, async () => {
-  console.log('Server listening on port 3000\r\n#############################\r\n')
+app.listen(port, async () => {
+  console.log(`Server listening on port ${port}\r\n#############################\r\n`)
   // websockify({
   //   source: `localhost:6110`,
   //   target: 'localhost:6112'

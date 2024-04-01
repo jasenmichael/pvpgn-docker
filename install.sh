@@ -170,6 +170,3 @@ fi
 
 echo "for usage run:
   $0 -h"
-
-
-

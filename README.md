@@ -7,26 +7,11 @@ This repository provides a convenient way to set up and run a PvPGN server using
 * Docker: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 
 ## Installation
-
-There are two ways to install this project:
-
-**1. Using Git:**
-Use Git for version control and easier updates.
+*requires git and docker to be installed
 
 ```bash
 git clone https://github.com/jasenmichael/pvpgn-docker.git pvpgn
 cd pvpgn
-./install-pvpgn.sh
-```
-
-
-**2. Manual Download (Without Git):**
-Download the installation script directly.
-```bash
-mkdir pvpgn
-cd pvpgn
-curl -fsSL https://raw.githubusercontent.com/jasenmichael/pvpgn-docker/main/install-pvpgn.sh -O
-chmod +x install-pvpgn.sh
 ./install-pvpgn.sh
 ```
 
@@ -79,3 +64,18 @@ IMAGE_NAME=jasenmichael/pvpgn
 WEB_PORT=3000
 ```
 *You must rebuild after changing the .env file for the changes to take effect.
+
+
+<!-- 
+
+etc/bnetd.conf
+etc/address_translation.conf
+
+
+
+
+
+
+
+
+ -->

@@ -1,6 +1,8 @@
 # Install build dependencies
 FROM alpine:latest AS build-base
 
+ENV TZ="America/Chicago"
+
 RUN apk --quiet --no-cache add \
   git \
   build-base \
@@ -72,7 +74,8 @@ RUN addgroup --gid 1001 pvpgn \
   pvpgn
 
 # Expose ports
-EXPOSE 6112 4000 3000
+# EXPOSE 6112 4000 3002
+ EXPOSE 6112 6112/udp 6200 6200/udp 3002
 
 # Set working directory
 RUN mkdir -p /usr/local/pvpgn/web && \

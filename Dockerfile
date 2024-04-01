@@ -1,8 +1,6 @@
 # Install build dependencies
 FROM alpine:latest AS build-base
 
-ENV TZ="America/Chicago"
-
 RUN apk --quiet --no-cache add \
   git \
   build-base \
@@ -31,8 +29,7 @@ RUN cmake -G "Unix Makefiles" -H./ -B./build \
 ############################################################################################ 
 
 # Runner image with dependencies
-FROM node:iron-alpine  AS runner
-# FROM alpine:latest AS runner
+FROM node:iron-alpine AS runner
 
 RUN apk --quiet --no-cache add \
   ca-certificates \
@@ -96,6 +93,9 @@ RUN cd /usr/local/pvpgn/web/frontend && npm ci && npm run build
 
 # Set user
 USER 1001:1001
+
+# set timezone
+# RUN echo "America/Chicago" > /etc/timezone
 
 # Run command
 CMD ["/entrypoint.sh"]

@@ -20,6 +20,7 @@ DOCKER_RUN_COMMAND="docker run -d \
   -p $WEB_PORT:3000  \
   -v $WORKING_DIR/var:/var/pvpgn:rw \
   -v $WORKING_DIR/etc:/etc/pvpgn:rw \
+  --network host \
   $IMAGE_NAME"
   # -v $WORKING_DIR/web:/usr/local/pvpgn/web:rw \
 

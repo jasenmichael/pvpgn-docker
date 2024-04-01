@@ -75,7 +75,7 @@ RUN addgroup --gid 1001 pvpgn \
 
 # Expose ports
 # EXPOSE 6112 4000 3002
- EXPOSE 6112 6112/udp 6200 6200/udp 3002
+EXPOSE 6112 6112/udp 6200 6200/udp 3002
 
 # Set working directory
 RUN mkdir -p /usr/local/pvpgn/web && \

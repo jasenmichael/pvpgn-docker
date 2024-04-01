@@ -14,14 +14,14 @@ WEB_PORT=${ENV_WEB_PORT:-3002}
 
 DOCKER_RUN_COMMAND="docker run -d \
   --name $CONTAINER_NAME \
-  -p 6112:6112/udp \
-  -p 6112:6112/tcp \
   -p 4000:4000  \
   -p $WEB_PORT:3002  \
   -v $WORKING_DIR/var:/var/pvpgn:rw \
   -v $WORKING_DIR/etc:/etc/pvpgn:rw \
   --network host \
   $IMAGE_NAME"
+  # -p 6112:6112 \
+  # -p 6112:6112/udp \
   # -v $WORKING_DIR/web:/usr/local/pvpgn/web:rw \
 
 ###############################################################

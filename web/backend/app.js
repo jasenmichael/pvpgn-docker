@@ -28,7 +28,7 @@ app.post('request', request => {
   res.json({ result: result || "na" })
 })
 
-app.listen(3000, async () => {
+app.listen(3002, async () => {
   console.log('Server listening on port 3000\r\n#############################\r\n')
   // websockify({
   //   source: `localhost:6110`,
